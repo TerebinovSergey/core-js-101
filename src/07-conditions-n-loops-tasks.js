@@ -186,7 +186,6 @@ function isInsideCircle(/* circle, point */) {
  */
 function findFirstSingleChar(str) {
   const obj = {};
-  console.log(str);
   str.split('').forEach((el, i) => {
     if (obj[el]) {
       const { count } = obj[el];
@@ -422,9 +421,8 @@ function toNaryString(num, n) {
  */
 function getCommonDirectoryPath(pathes) {
   const arr = pathes.map((value) => value.split('/'));
-  let i = 0;
   const res = [];
-  while (true) {
+  for (let i = 0; i < 10; i += 1) {
     let value = arr[0][i];
     for (let j = 1; j < arr.length; j += 1) {
       if (arr[j][i] !== value) {
@@ -434,7 +432,6 @@ function getCommonDirectoryPath(pathes) {
     }
     if (value === null) break;
     res.push(value);
-    i += 1;
   }
   if (res.length === 0) return '';
   return `${res.join('/')}/`;
