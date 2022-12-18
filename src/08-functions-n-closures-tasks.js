@@ -23,8 +23,8 @@
  *   getComposition(Math.sin, Math.asin)(x) => Math.sin(Math.asin(x))
  *
  */
-function getComposition(/* f, g */) {
-  throw new Error('Not implemented');
+function getComposition(f, g) {
+  return (x) => f(g(x));
 }
 
 
@@ -157,8 +157,30 @@ function retry(func, attempts) {
  * cos(3.141592653589793) ends
  *
  */
-function logger(/* func, logFunc */) {
-  throw new Error('Not implemented');
+function getParam(arr) {
+  let str = '';
+  for (let i = 0; i < arr.length; i += 1) {
+    let paramToStr;
+    if (Array.isArray(arr[i])) {
+      paramToStr = JSON.stringify(arr[i]);
+    } else {
+      paramToStr = String(arr[i]);
+    }
+    str = str + ((str === '') ? '' : ',') + paramToStr;
+  }
+  return str;
+}
+
+function logger(func, logFunc) {
+  return function a(...args) {
+    const param = getParam(args);
+    const start = `${func.name}(${param}) starts`;
+    const end = `${func.name}(${param}) ends`;
+    logFunc(start);
+    const res = func(...args);
+    logFunc(end);
+    return res;
+  };
 }
 
 
@@ -175,8 +197,11 @@ function logger(/* func, logFunc */) {
  *   partialUsingArguments(fn, 'a','b','c')('d') => 'abcd'
  *   partialUsingArguments(fn, 'a','b','c','d')() => 'abcd'
  */
-function partialUsingArguments(/* fn, ...args1 */) {
-  throw new Error('Not implemented');
+function partialUsingArguments(fn, ...args1) {
+  return function a(...args2) {
+    const res = fn(...args1, ...args2);
+    return res;
+  };
 }
 
 
@@ -197,8 +222,12 @@ function partialUsingArguments(/* fn, ...args1 */) {
  *   getId4() => 7
  *   getId10() => 11
  */
-function getIdGeneratorFunction(/* startFrom */) {
-  throw new Error('Not implemented');
+function getIdGeneratorFunction(startFrom) {
+  let startInt = startFrom;
+  return () => {
+    startInt += 1;
+    return startInt - 1;
+  };
 }
 
 
