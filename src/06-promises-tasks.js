@@ -28,18 +28,15 @@
  *      .catch((error) => console.log(error.message)) // 'Error: Wrong parameter is passed!
  *                                                    //  Ask her again.';
  */
-function willYouMarryMe(/* isPositiveAnswer */) {
-  throw new Error('Not implemented');
-  /* return new Promise((resolve, reject) => {
-    console.log(isPositiveAnswer);
-    if (typeof isPositiveAnswer !== 'boolean') {
-      return reject(new Error('Error: Wrong parameter is passed! Ask her again.'));
-    }
-    if (isPositiveAnswer === false) {
-      return reject(new Error('Oh no, she said "No".'));
-    }
-    return resolve('Hooray!!! She said "Yes"!');
-  }); */
+function willYouMarryMe(isPositiveAnswer) {
+  if (isPositiveAnswer === true) {
+    return new Promise((resolve) => resolve('Hooray!!! She said "Yes"!'));
+  }
+  if (isPositiveAnswer === false) {
+    return new Promise((reject) => reject('Oh no, she said "No".'));
+  }
+
+  return new Promise(() => { throw new Error('Wrong parameter is passed! Ask her again.'); });
 }
 
 
@@ -58,8 +55,8 @@ function willYouMarryMe(/* isPositiveAnswer */) {
  *    })
  *
  */
-function processAllPromises(/* array */) {
-  throw new Error('Not implemented');
+function processAllPromises(array) {
+  return Promise.all([...array]).then((value) => value, (reason) => reason);
 }
 
 /**
@@ -81,8 +78,8 @@ function processAllPromises(/* array */) {
  *    })
  *
  */
-function getFastestPromise(/* array */) {
-  throw new Error('Not implemented');
+function getFastestPromise(array) {
+  return Promise.race([...array]).then((value) => value);
 }
 
 /**
@@ -104,6 +101,33 @@ function getFastestPromise(/* array */) {
  */
 function chainPromises(/* array, action */) {
   throw new Error('Not implemented');
+  /* const results = [];
+  // to track how many promises have completed
+  let promisesCompleted = 0;
+  // return new promise
+  return new Promise((resolve, reject) => {
+    array.forEach(async (promise, index) => {
+      // if promise passes
+      promise.then((val) => {
+        // store its outcome and increment the count
+        results[index] = val;
+        promisesCompleted += 1;
+        // if all the promises are completed,
+        // resolve and return the result
+        if (promisesCompleted === array.length) {
+          const answer = results.map((el) => action(...el));
+          console.log('here', answer);
+          resolve(results.join(' '));
+        }
+      })
+        // if any promise fails, reject.
+        .catch((error) => {
+          reject(error);
+        });
+    });
+  }); */
+
+  // return prom.then((arr) => arr.map((cur) => action(cur)).join());
 }
 
 module.exports = {
